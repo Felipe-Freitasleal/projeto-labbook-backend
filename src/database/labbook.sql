@@ -6,6 +6,7 @@ CREATE TABLE
         name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
+        role TEXT NOT NULL,
         created_at TEXT DEFAULT(DATETIME()) NOT NULL
     );
 
@@ -31,12 +32,13 @@ CREATE TABLE
     );
 
 INSERT INTO
-    users (id, name, email, password)
+    users (id, name, email, password, role)
 VALUES (
         "user0001",
         "Laura",
         "laura@email.com",
-        "laura123"
+        "laura123",
+        "user"
     );
 
 INSERT INTO posts (
