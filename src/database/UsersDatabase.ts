@@ -6,14 +6,14 @@ export class UsersDatabase extends BaseDatabase {
     public static TABLE_USERS = "users"
 
     // métodos
-    public async singnUp (newUser: UserDB) {
+    public signUp = async (newUser: UserDB) => {
         await BaseDatabase.connection(UsersDatabase.TABLE_USERS).insert(newUser)
     }
 
-    public async findUserById(id: string) {
+    public  findUserById = async (email: string) => {
         const [ productDB ]: UserDB[] | undefined[] = await BaseDatabase
             .connection(UsersDatabase.TABLE_USERS)
-            .where({ id })
+            .where({ email })
 
         return productDB
     }

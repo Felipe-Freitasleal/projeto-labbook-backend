@@ -17,18 +17,20 @@ CREATE TABLE
         content TEXT NOT NULL,
         likes INTEGER DEFAULT(0),
         dislikes INTEGER DEFAULT(0),
-        created_ate TEXT DEFAULT(DATETIME()),
+        created_at TEXT DEFAULT(DATETIME()),
         update_at TEXT DEFAULT(DATETIME()),
-        FOREIGN KEY (creator_id) REFERENCES users (id)
+        FOREIGN KEY (creator_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
+
+DROP TABLE likes_dislikes;
 
 CREATE TABLE
     likes_dislikes(
         user_id TEXT NOT NULL,
         post_id TEXT NOT NULL,
-        like INTEGER DEFAULT(0),
-        FOREIGN KEY (user_id) REFERENCES users (id),
-        FOREIGN KEY (post_id) REFERENCES posts (id)
+        like INTEGER NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 INSERT INTO
@@ -36,33 +38,43 @@ INSERT INTO
 VALUES (
         "user0001",
         "Laura",
-        "laura@email.com",
+        "Laura@email.com",
         "laura123",
+        "user"
+    ), (
+        "user0002",
+        "Bella",
+        "bella@email.com",
+        "bella123",
         "user"
     );
 
-INSERT INTO posts (
-        id,
-        creator_id,
-        content
-    )
-VALUES 
-("post0001", "user0001", "Olá, essa é a primeira postagem por SQL"), 
-("post0002", "user0001", "Hi!");
+INSERT INTO
+    posts (id, creator_id, content)
+VALUES (
+        "post0001",
+        "user0001",
+        "Olá, essa é a primeira postagem por SQL"
+    ), ("post0002", "user0001", "Hi!");
 
-INSERT INTO likes_dislikes (user_id, post_id)
-VALUES ("user0001", "post0001");
+INSERT INTO
+    likes_dislikes (user_id, post_id, like)
+VALUES ("user0002", "post0001", 1);
 
 SELECT * FROM users;
 
 SELECT * FROM posts;
 
-SELECT 
-users.id, 
-posts.id, 
-posts.content 
-FROM likes_dislikes
-RIGHT JOIN users
-ON users.id = likes_dislikes.user_id
-LEFT JOIN posts
-ON posts.id = likes_dislikes.post_id;
+SELECT * FROM likes_dislikes;
+
+SELECT
+    users.id,
+    posts.id,
+    posts.content
+FROM likes_dislikes RIGHT
+    JOIN users ON users.id = likes_dislikes.user_id
+    LEFT JOIN posts ON posts.id = likes_dislikes.post_id;
+
+UPDATE posts
+SET likes = 1
+WHERE id = 'post0001';

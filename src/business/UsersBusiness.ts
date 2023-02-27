@@ -1,59 +1,76 @@
 import { UsersDatabase } from "../database/UsersDatabase";
-import { singupInputDTO, UsersDTO } from "../dtos/UsersDTO";
+import { SignupInputDTO, UsersDTO } from "../dtos/UsersDTO";
 import { BadRequestError } from "../errors/BadRequestError";
 import { Users } from "../models/Users";
-import { UserDB } from "../types";
+import { HashManager } from "../services/HashManager";
+import { IdGenerator } from "../services/IdGenerator";
+import { TokenManager, TokenPayload } from "../services/TokenMenager";
+import { USERS_ROLES } from "../types";
 
 export class UsersBusiness {
-    // propriedades
-    constructor(
-        private usersDatabase: UsersDatabase,
-        private usersDTO: UsersDTO
-    ) {}
+  // propriedades
+  constructor(
+    private usersDatabase: UsersDatabase,
+    private usersDTO: UsersDTO,
+    private idGenerator: IdGenerator,
+    private tokenManager: TokenManager,
+    private hashManager: HashManager
+  ) {}
 
-    // métodos
-    public singnUp= async (input: singupInputDTO) => {
-        const { id, name, email, password, role } = input;
+  // métodos
+  public signUp = async (input: SignupInputDTO) => {
+    const { name, email, password } = input;
 
     if (name.length < 2) {
       throw new BadRequestError("'name' deve possuir pelo menos 2 caracteres");
     }
 
     if (!email.includes("@")) {
-        throw new BadRequestError("Insira e-mail válido");
+      throw new BadRequestError("Insira e-mail válido");
     }
 
-    
-    if (!password.match(/"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"/g)  ) {
-        throw new BadRequestError("A senha deve ter no mínimo 6 caracteres com pelo menos um número.");
+    if (!password.match(/"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"/g)) {
+      throw new BadRequestError(
+        "A senha deve ter no mínimo 6 caracteres com pelo menos um número."
+      );
     }
 
-    if (role.length < 2) {
-        throw new BadRequestError("O cargo deve ter ao menos dois caracteres.");
-    }
-
-    const usersDBExist = await this.usersDatabase.findUserById(id);
+    const usersDBExist = await this.usersDatabase.findUserById(email);
 
     if (usersDBExist) {
       throw new BadRequestError("'id' já existe");
     }
 
-    const newUser = new Users(id, name, email, password, role, new Date().toISOString());
+    const id = this.idGenerator.generate();
+    const hashPassword = await this.hashManager.hash(password);
+    const role =  USERS_ROLES.NORMAL;
+    const createdAt = new Date().toISOString();
 
-    const newUserDB: UserDB = {
+    const newUser = new Users(
+      id,
+      name,
+      email,
+      hashPassword,
+      role,
+      createdAt
+    );
+
+    const userDB = newUser.toDBModel()
+
+    await this.usersDatabase.signUp(userDB);
+
+    const payload: TokenPayload = {
         id: newUser.getId(),
         name: newUser.getName(),
-        email: newUser.getEmail(),
-        password: newUser.getPassword(),
-        role: newUser.getRole(),
-        created_at: newUser.getCreatedAt()
-    };
+        role: newUser.getRole()
+    }
 
-    await this.usersDatabase.singnUp(newUserDB);
+    const token = this.tokenManager.createToken(payload);
 
-
-    const output = this.usersDTO.singupOutput(newUser)
+    const output = this.usersDTO.signupOutput(
+        token
+    );
 
     return output;
-    }
+  };
 }
