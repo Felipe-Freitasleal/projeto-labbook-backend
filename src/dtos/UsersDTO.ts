@@ -75,4 +75,12 @@ export class UsersDTO {
 
     return dto;
   }
+  
+  public loginOutput(token: any) {
+    const dto: LoginOutputDTO = {
+      token,
+    };
+
+    return dto;
+  }
 }

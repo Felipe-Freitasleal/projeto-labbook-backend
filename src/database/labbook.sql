@@ -47,6 +47,13 @@ VALUES (
         "bella@email.com",
         "bella123",
         "user"
+    ),
+    (
+        "user0003",
+        "Felipe",
+        "felipe@email.com",
+        "felipe123",
+        "admin"
     );
 
 INSERT INTO
@@ -67,14 +74,17 @@ SELECT * FROM posts;
 
 SELECT * FROM likes_dislikes;
 
-SELECT
-    users.id,
+SELECT 
     posts.id,
-    posts.content
-FROM likes_dislikes RIGHT
-    JOIN users ON users.id = likes_dislikes.user_id
-    LEFT JOIN posts ON posts.id = likes_dislikes.post_id;
+    posts.creator_id,
+    posts.content,
+    posts.likes,
+    posts.dislikes,
+    posts.created_at,
+    posts.update_at,
+    users.name AS creator_name
+FROM posts 
+JOIN users
+ON posts.creator_id = users.id;
 
-UPDATE posts
-SET likes = 1
-WHERE id = 'post0001';
+UPDATE posts SET likes = 1 WHERE id = 'post0001';

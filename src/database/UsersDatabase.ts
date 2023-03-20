@@ -2,19 +2,21 @@ import { UserDB } from "../types";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class UsersDatabase extends BaseDatabase {
-    // propriedades
-    public static TABLE_USERS = "users"
+  // propriedades
+  public static TABLE_USERS = "users";
 
-    // métodos
-    public signUp = async (newUser: UserDB) => {
-        await BaseDatabase.connection(UsersDatabase.TABLE_USERS).insert(newUser)
-    }
+  // métodos
+  public signUp = async (newUser: UserDB): Promise<void> => {
+    await BaseDatabase.connection(UsersDatabase.TABLE_USERS).insert(newUser);
+  };
 
-    public  findUserById = async (email: string) => {
-        const [ productDB ]: UserDB[] | undefined[] = await BaseDatabase
-            .connection(UsersDatabase.TABLE_USERS)
-            .where({ email })
+  public findUserByEmail = async (
+    email: string
+  ): Promise<UserDB | undefined> => {
+    const productDB: UserDB[] | undefined[] = await BaseDatabase.connection(
+      UsersDatabase.TABLE_USERS
+    ).select().where({ email });
 
-        return productDB
-    }
+    return productDB[0];
+  };
 }

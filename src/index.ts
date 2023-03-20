@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import { userRouter } from './router/UsersRouter'
+import { postRouter } from './router/PostsRouter'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -33,3 +34,4 @@ app.get("/ping", async (req: Request, res: Response) => {
 })
 
 app.use("/users", userRouter)
+app.use("/posts", postRouter)

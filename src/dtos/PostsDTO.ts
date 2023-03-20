@@ -26,11 +26,11 @@ export interface DeletePostInputDTO {
 export interface LikeOrDislikePostInputDTO {
   idToLikeOrDislike: string;
   token: string | undefined;
-  like: number;
-  dislike: number;
+  like: boolean;
+  // dislike: boolean;
 }
 
-export class UsersDTO {
+export class PostsDTO {
   // propriedades
 
   // métodos
@@ -102,29 +102,29 @@ export class UsersDTO {
     idToLikeOrDislike: unknown,
     token: unknown,
     like: unknown,
-    dislike: unknown
+    // dislike: unknown
   ): LikeOrDislikePostInputDTO {
     if (typeof idToLikeOrDislike !== "string") {
-      throw new BadRequestError("O conteúdo deve ser uma string");
+      throw new BadRequestError("O Id deve ser uma string");
     }
 
     if (typeof token !== "string") {
       throw new BadRequestError("O token deve ser uma string");
     }
 
-    if (typeof like !== "number") {
-      throw new BadRequestError("O like deve ser um number");
+    if (typeof like !== "boolean") {
+      throw new BadRequestError("O like deve ser um boolean");
     }
 
-    if (typeof dislike !== "number") {
-      throw new BadRequestError("O token deve ser um number");
-    }
+    // if (typeof dislike !== "boolean") {
+    //   throw new BadRequestError("O token deve ser um number");
+    // }
 
     const dto: LikeOrDislikePostInputDTO = {
       idToLikeOrDislike,
       token,
       like,
-      dislike,
+      // dislike,
     };
 
     return dto;

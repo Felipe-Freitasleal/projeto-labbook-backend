@@ -1,9 +1,15 @@
+// user
+export enum USERS_ROLES {
+    NORMAL = "user",
+    ADMIN = "admin"
+}
+
 export interface UserDB {
     id: string,
     name: string,
     email: string,
     password: string,
-    role: string,
+    role: USERS_ROLES,
     created_at: string
 }
 
@@ -12,10 +18,12 @@ export interface UserModel{
     name: string,
     email: string,
     password: string,
-    role: string,
+    role: USERS_ROLES,
     createdAt: string
 }
 
+
+// post
 export interface PostDB {
     id: string,
     creator_id: string,
@@ -39,7 +47,17 @@ export interface PostModel {
     }
 }
 
-export enum USERS_ROLES {
-    NORMAL = "user",
-    ADMIN = "admin"
+export interface PostWithCreatorDB extends PostDB {
+    creator_name: string
+}
+
+export interface LikesDislikesDB {
+    user_id: string,
+    post_id: string,
+    like: number
+}
+
+export enum POST_LIKE{
+    ALREADY_LIKED = 'ALREADY LIKED',
+    ALREADY_DISLIKED = 'ALREADY DISLIKED'
 }
