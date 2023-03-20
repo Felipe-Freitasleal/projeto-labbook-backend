@@ -1,82 +1,86 @@
 import { BadRequestError } from "../errors/BadRequestError";
-import { Users } from "../models/Users";
+import { PostModel } from "../types";
 
-export interface singupInputDTO {
-    id: string,
-    name: string,
-    email: string,
-    password: string,
-    role: string,
+export interface SignupInputDTO {
+  name: string;
+  email: string;
+  password: string;
 }
 
-export interface singnUpOutPutDTo {
-    message: string,
-    user: {
-        id: string,
-        name: string,
-        email: string,
-        password: string,
-        role: string,
-        createdAt: string
-    }
+export interface SignUpOutPutDTo {
+  token: string;
 }
+
+export interface LoginInputDTO {
+  email: string;
+  password: string;
+}
+
+export interface LoginOutputDTO {
+  token: string;
+}
+
 
 export class UsersDTO {
-    // propriedades
+  // propriedades
 
-    // métodos
-    public singupInput (
-        id: unknown,
-        name: unknown,
-        email: unknown,
-        password: unknown,
-        role: unknown
-    ): singupInputDTO {
-
-        if (typeof id !== "string") {
-            throw new BadRequestError("'id' deve ser string");
-          }
-      
-          if (typeof name !== "string") {
-            throw new BadRequestError("'name' deve ser string");
-          }
-      
-          if (typeof email !== "string") {
-            throw new BadRequestError("'price' deve ser number");
-          }
-
-          if (typeof password !== "string") {
-            throw new BadRequestError("'price' deve ser number");
-          }
-
-          if (typeof role !== "string") {
-            throw new BadRequestError("'price' deve ser number");
-          }
-
-          const dto: singupInputDTO = {
-            id,
-            name,
-            email,
-            password, 
-            role
-          };
-      
-          return dto;
+  // métodos
+  public signupInput(
+    name: unknown,
+    email: unknown,
+    password: unknown
+  ): SignupInputDTO {
+    if (typeof name !== "string") {
+      throw new BadRequestError("'name' deve ser string");
     }
 
-    public singupOutput(users: Users) {
-        const dto: singnUpOutPutDTo = {
-          message: "Usuário registrado com sucesso",
-          user: {
-            id: users.getId(),
-            name: users.getName(),
-            email: users.getEmail(),
-            password: users.getPassword(),
-            role: users.getRole(),
-            createdAt: users.getCreatedAt()
-          },
-        };
-    
-        return dto;
-      }
+    if (typeof email !== "string") {
+      throw new BadRequestError("O e-mail deve ser uma string");
+    }
+
+    if (typeof password !== "string") {
+      throw new BadRequestError("A senha deve ser uma string");
+    }
+
+    const dto: SignupInputDTO = {
+      name,
+      email,
+      password,
+    };
+
+    return dto;
+  }
+
+  public signupOutput(token: any) {
+    const dto: SignUpOutPutDTo = {
+      token,
+    };
+
+    return dto;
+  }
+
+  public loginInput(email: unknown, password: unknown): LoginInputDTO {
+    if (typeof email !== "string") {
+      throw new BadRequestError("O e-mail deve ser uma string");
+    }
+
+    if (typeof password !== "string") {
+      throw new BadRequestError("A senha deve ser uma string");
+    }
+
+    const dto: LoginInputDTO = {
+      email,
+      password,
+    };
+
+    return dto;
+  }
+  
+  public loginOutput(token: any) {
+    const dto: LoginOutputDTO = {
+      token,
+    };
+
+    return dto;
+  }
 }

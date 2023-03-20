@@ -1,14 +1,18 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import { userRouter } from './router/UsersRouter'
+import { postRouter } from './router/PostsRouter'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-app.listen(3030, () => {
-    console.log(`Servidor rodando na porta ${3030}`)
+app.listen(Number(process.env.PORT), () => {
+    console.log(`Servidor rodando na porta ${process.env.PORT}`)
 })
 
 app.get("/ping", async (req: Request, res: Response) => {
@@ -30,3 +34,4 @@ app.get("/ping", async (req: Request, res: Response) => {
 })
 
 app.use("/users", userRouter)
+app.use("/posts", postRouter)
