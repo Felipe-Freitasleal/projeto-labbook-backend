@@ -30,7 +30,7 @@ export class UsersBusiness {
       throw new BadRequestError("Insira e-mail válido");
     }
 
-    if (!password.match(/"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"/g)) {
+    if (password.length < 6) {
       throw new BadRequestError(
         "A senha deve ter no mínimo 6 caracteres com pelo menos um número."
       );
@@ -73,7 +73,7 @@ export class UsersBusiness {
       throw new BadRequestError("Insira e-mail válido");
     }
 
-    if (!password.match(/"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"/g)) {
+    if (password.length < 6) {
       throw new BadRequestError(
         "A senha deve ter no mínimo 6 caracteres com pelo menos um número."
       );
