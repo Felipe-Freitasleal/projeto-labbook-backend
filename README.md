@@ -49,7 +49,7 @@ https://documenter.getpostman.com/view/24460788/2s93K1pzYL
 
  ## **Autor**
 
- <img style="height:250px" src="./pokedex-labenu/src/assets/1672792865158.jpg" alt="foto autor"/>
+ <img style="height:250px" src="./assets/1672792865158.jpg" alt="foto autor"/>
 
  Felipe Freitas Leal
  
