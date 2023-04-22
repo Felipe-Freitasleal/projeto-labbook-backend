@@ -7,6 +7,10 @@ são tratados e modelados por processo arquitetura de POO (Programação Orienta
 \
 Este projeto foi desenvolvido como atividade avaliativa para a conclusão do módulo de Back-end no curso de Desenvolvimento Web Full-Stack da Labenu. 
 
+## **Front End**
+
+https://github.com/Felipe-Freitasleal/labeddit
+
 ## **Tecnologias utilizadaS**
 
  - Typescript
