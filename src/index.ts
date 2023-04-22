@@ -12,7 +12,7 @@ app.use(cors())
 app.use(express.json())
 
 app.listen(Number(process.env.PORT), () => {
-    console.log(`Servidor rodando na porta ${process.env.PORT}`)
+    console.log(`Servidor rodando na porta ${Number(process.env.PORT)}`)
 })
 
 app.get("/ping", async (req: Request, res: Response) => {
