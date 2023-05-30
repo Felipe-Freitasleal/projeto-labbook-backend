@@ -32,7 +32,7 @@ https://github.com/Felipe-Freitasleal/labeddit
  - [x] Curti ou descurtir postagem
  - [x] Pegar todas as postagens
 
-## **Documentação da API ** 
+## **Documentação da API** 
 
 ### Documentação acriada pelo Postman: ###
 
